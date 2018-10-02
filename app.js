@@ -6,8 +6,8 @@ var mongoose = require('mongoose');
 app.use(express.static(__dirname+'/client'));
 app.use(bodyParser.json());
 
-User = require('./models/user/user')
-const validateSignup = require('./middleware/validateSignup')
+User = require('./server/models/user/user')
+const validateSignup = require('./server/middleware/validateSignup')
 
 // connect to mongoose
 mongoose.connect('mongodb://localhost/medicalshop')
