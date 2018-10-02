@@ -4,13 +4,20 @@
   "description": "simple online medical shopping app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha ./tests/users"
   },
   "dependencies": {
-    "express": "*",
+    "bcrypt": "^3.0.1",
     "body-parser": "*",
+    "express": "*",
     "mongoose": "*"
   },
   "author": "jsgulus",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "superagent": "^4.0.0-beta.5",
+    "supertest": "^3.3.0"
+  }
 }
