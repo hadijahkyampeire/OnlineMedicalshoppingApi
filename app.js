@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/medicalshop')
 var db = mongoose.connection;
 
 //first route
-app.get('/', function(req, res){
+app.get('/home', function(req, res){
     res.send('Congratulations, Please use the /api/... endpoints');
 });
 
