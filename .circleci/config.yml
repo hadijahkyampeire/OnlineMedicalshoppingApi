@@ -41,7 +41,7 @@ jobs:
       # run tests!
       - run:
           name: code-coverage
-          command: 
+          command: |
                 # notify Code Climate of a pending test report using `before-build`
                 ./cc-test-reporter before-build
                 npm run test:dev
