@@ -1,3 +1,4 @@
+
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
@@ -47,10 +48,7 @@ jobs:
       - run:
           name: test-code-coverage
           command: |
-                # notify Code Climate of a pending test report using `before-build`
-                ./cc-test-reporter before-build
-                npm run nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec
-                # upload test report to Code Climate using `after-build`
-
-                ./cc-test-reporter after-build --exit-code $?
-    
+            ./cc-test-reporter before-build
+            npm run test
+            # ./cc-test-reporter after-build --exit-code $?
+      
