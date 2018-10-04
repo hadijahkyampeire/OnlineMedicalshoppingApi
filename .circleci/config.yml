@@ -44,9 +44,9 @@ jobs:
           command: |
                 # notify Code Climate of a pending test report using `before-build`
                 ./cc-test-reporter before-build
-                npm run nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec
+                npm test
                 # upload test report to Code Climate using `after-build`
-                ./cc-test-reporter after-build --exit-code $?
+                ./cc-test-reporter after-build --exit-code 
       - persist_to_workspace:
             root: ./
             paths: ./coverage
