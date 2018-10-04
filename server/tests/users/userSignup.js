@@ -21,21 +21,23 @@ describe('Test user API', () => {
     });
     
   });
-  // it('should return a success message when an account is created', (done) => {
-  //   request.post('/api/auth/signup')
-  //   .send({
-  //     email: 'hadijah2@gmail.com',
-  //     username:'haddy2',
-  //     password: '1234567890',
-  //     passwordConf:'1234567890'
-  //   })
-  //   .end((err, res) => {
-  //     expect(res.body).to.be.an('object');
-  //     expect(res.body).to.haveOwnProperty('message').to.equal('User created successfully');
-  //     done();
-  //   });
+  it('should return a success message when an account is alreadycreated', (done) => {
+    request.post('/api/auth/signup')
+    .send({
+      email: 'hadijah2@gmail.com',
+      username:'haddy2',
+      password: '1234567890',
+      passwordConf:'1234567890'
+    })
+    .end((err, res) => {
+      expect(res.body).to.be.an('object');
+      expect(res.status).to.equal(409);
+      expect(res.body).to.haveOwnProperty('message').to.equal('User already exists.');
+      done();
+    });
     
-  // });
+  });
+
   it('should return an error message for an empty username', (done) => {
     request.post('/api/auth/signup')
     .send({
