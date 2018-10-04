@@ -46,7 +46,7 @@ jobs:
                 ./cc-test-reporter before-build
                 npm run test:dev
                 # upload test report to Code Climate using `after-build`
-                # ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+                ./cc-test-reporter after-build --exit-code $?
       - persist_to_workspace:
             root: ./
             paths: ./coverage
