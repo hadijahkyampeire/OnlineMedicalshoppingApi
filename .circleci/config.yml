@@ -44,14 +44,6 @@ jobs:
             ./cc-test-reporter before-build
             npm run test:dev
             ./cc-test-reporter after-build --exit-code $?
-      - persist_to_workspace:
-            root: ./
-            paths: ./coverage
-      - store_artifacts:
-          path: ./coverage
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
+      
 
 
