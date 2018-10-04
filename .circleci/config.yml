@@ -48,6 +48,19 @@ jobs:
       - run:
           name: test-code-coverage
           command: |
-            ./cc-test-reporter before-build
-            npm run test
-            # ./cc-test-reporter after-build --exit-code $?
+                sudo docker-php-ext-enable xdebug
+                # notify Code Climate of a pending test report using `before-build`
+                ./cc-test-reporter before-build
+                npm run test:dev
+                sudo vendor/bin/phpunit --coverage-clover clover.xml
+                # upload test report to Code Climate using `after-build`
+                ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+      - persist_to_workspace:
+            root: ./
+            paths: ./coverage
+      - store_artifacts:
+          path: ./coverage
+          prefix: tests
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
