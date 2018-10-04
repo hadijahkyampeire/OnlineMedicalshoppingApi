@@ -1,3 +1,4 @@
+
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
@@ -50,6 +51,3 @@ jobs:
             ./cc-test-reporter before-build
             npm run test
             # ./cc-test-reporter after-build --exit-code $?
-      
-
-
