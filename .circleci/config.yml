@@ -1,4 +1,3 @@
-
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
@@ -52,13 +51,6 @@ jobs:
                 ./cc-test-reporter before-build
                 npm run test:dev
                 # upload test report to Code Climate using `after-build`
-                ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
-      - persist_to_workspace:
-            root: ./
-            paths: ./coverage
-      - store_artifacts:
-          path: ./coverage
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
+
+                ./cc-test-reporter after-build --exit-code $?
+    
