@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/hadijahkyampeire/OnlineMedicalshoppingApi/tree/integrate-circleci-coveralls.svg?style=svg)](https://circleci.com/gh/hadijahkyampeire/OnlineMedicalshoppingApi/tree/integrate-circleci-coveralls)
-[![Coverage Status](https://coveralls.io/repos/github/hadijahkyampeire/OnlineMedicalshoppingApi/badge.svg?branch=master)](https://coveralls.io/github/hadijahkyampeire/OnlineMedicalshoppingApi?branch=master)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2fac8d704d2f7889cccd/test_coverage)](https://codeclimate.com/github/hadijahkyampeire/OnlineMedicalshoppingApi/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2fac8d704d2f7889cccd/maintainability)](https://codeclimate.com/github/hadijahkyampeire/OnlineMedicalshoppingApi/maintainability)
 # OnlineMedicalshoppingApi
 This is an application with an API written in NodeJs. It is an online medical App that enables a user to buy medicine online. 
