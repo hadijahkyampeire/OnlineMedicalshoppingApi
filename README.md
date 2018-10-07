@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/hadijahkyampeire/OnlineMedicalshoppingApi/tree/integrate-circleci-coveralls.svg?style=svg)](https://circleci.com/gh/hadijahkyampeire/OnlineMedicalshoppingApi/tree/integrate-circleci-coveralls)
-[![Coverage Status](https://coveralls.io/repos/github/hadijahkyampeire/OnlineMedicalshoppingApi/badge.svg?branch=master)](https://coveralls.io/github/hadijahkyampeire/OnlineMedicalshoppingApi?branch=master)
 # OnlineMedicalshoppingApi
 This is an application with an API written in NodeJs. It is an online medical App that enables a user to buy medicine online. 
 

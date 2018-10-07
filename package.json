@@ -4,33 +4,13 @@
   "description": "simple online medical shopping app",
   "main": "app.js",
   "scripts": {
-    "test:dev": "nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.4",
-    "babel-register": "^6.26.0",
-    "bcrypt": "^3.0.1",
-    "body-parser": "*",
-    "coveralls": "^3.0.2",
     "express": "*",
-    "mongoose": "*",
-    "nyc": "^13.0.1"
-  },
-  "nyc": {
-    "exclude": [
-      "server/tests/*",
-      "server/models"
-    ]
+    "body-parser": "*",
+    "mongoose": "*"
   },
   "author": "jsgulus",
-  "license": "ISC",
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "mocha-lcov-reporter": "^1.3.0",
-    "superagent": "^4.0.0-beta.5",
-    "supertest": "^3.3.0"
-  }
+  "license": "ISC"
 }
