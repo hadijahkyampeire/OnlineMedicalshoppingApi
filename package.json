@@ -4,7 +4,7 @@
   "description": "simple online medical shopping app",
   "main": "app.js",
   "scripts": {
-    "test:dev": "nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec"
+    "test": "nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -12,9 +12,11 @@
     "babel-loader": "^8.0.4",
     "babel-register": "^6.26.0",
     "bcrypt": "^3.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "*",
     "coveralls": "^3.0.2",
     "express": "*",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "*",
     "nyc": "^13.0.1"
   },

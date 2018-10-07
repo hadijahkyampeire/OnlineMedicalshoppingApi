@@ -1,6 +1,11 @@
+var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var app = require('../../../app');
 var supertest = require('supertest');
+
+var deleteAfterRun = false;
+mongoose.connect('mongodb://localhost/medicalshop-testdb')
+var db = mongoose.connection;
 
 const request = supertest(app);
 
@@ -21,21 +26,23 @@ describe('Test user API', () => {
     });
     
   });
-  // it('should return a success message when an account is created', (done) => {
+  // it('should return an error message when an account is alreadycreated', (done) => {
   //   request.post('/api/auth/signup')
   //   .send({
   //     email: 'hadijah2@gmail.com',
-  //     username:'haddy2',
+  //     username:'haddy',
   //     password: '1234567890',
   //     passwordConf:'1234567890'
   //   })
   //   .end((err, res) => {
   //     expect(res.body).to.be.an('object');
-  //     expect(res.body).to.haveOwnProperty('message').to.equal('User created successfully');
+  //     expect(res.status).to.equal(409);
+  //     expect(res.body).to.haveOwnProperty('message').to.equal('User already exists.');
   //     done();
   //   });
     
   // });
+
   it('should return an error message for an empty username', (done) => {
     request.post('/api/auth/signup')
     .send({
@@ -99,4 +106,15 @@ describe('Test user API', () => {
     });
     
   });
+});
+
+//run once after all tests
+after(function (done) {
+  if (deleteAfterRun) {
+      console.log('Deleting test database');
+      mongoose.connection.db.dropDatabase(done);
+  } else {
+      console.log('Not deleting test database because it already existed before run');
+      done();
+  }
 });

@@ -27,25 +27,24 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
-
+      
+      - run:
+         name: Setup Code Climate test-reporter
+         command: |
+           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+           chmod +x ./cc-test-reporter
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: npm run test:dev
       - run:
-          name: code-coverage
-          command: './node_modules/.bin/nyc report --reporter=text-lcov -o tmp/nyc/lcov.info'
-      - persist_to_workspace:
-            root: ./
-            paths: ./coverage
-      - store_artifacts:
-          path: ./coverage
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
+          name: test-code-coverage
+          command: |
+            ./cc-test-reporter before-build
+            npm run test
+            # ./cc-test-reporter after-build --exit-code $?
+      
 
 
