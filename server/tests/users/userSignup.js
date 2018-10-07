@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
-var app = require('../../../app');
+var {app} = require('../../../app');
 var supertest = require('supertest');
 
-var deleteAfterRun = false;
-mongoose.connect('mongodb://localhost/medicalshop-testdb')
-var db = mongoose.connection;
+// var deleteAfterRun = true;
+// mongoose.connect('mongodb://localhost/medicalshop-testdb')
+// var db = mongoose.connection;
 
 const request = supertest(app);
 
@@ -26,27 +26,59 @@ describe('Test user API', () => {
     });
     
   });
-  // it('should return an error message when an account is alreadycreated', (done) => {
-  //   request.post('/api/auth/signup')
-  //   .send({
-  //     email: 'hadijah2@gmail.com',
-  //     username:'haddy',
-  //     password: '1234567890',
-  //     passwordConf:'1234567890'
-  //   })
-  //   .end((err, res) => {
-  //     expect(res.body).to.be.an('object');
-  //     expect(res.status).to.equal(409);
-  //     expect(res.body).to.haveOwnProperty('message').to.equal('User already exists.');
-  //     done();
-  //   });
+  it('should return a success message for account created', (done) => {
+    request.post('/api/auth/signup')
+    .send({
+      email: 'kyamp@gmail.com',
+      username:'haddijjah',
+      password: '1234567890',
+      passwordConf:'1234567890'
+    })
+    .end((err, res) => {
+      expect(res.status).to.equal(201);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.haveOwnProperty('message').to.equal('User created successfully');
+      done();
+    });
     
-  // });
+  });
+  it('should return an error message when an account email is alreadycreated', (done) => {
+    request.post('/api/auth/signup')
+    .send({
+      email: 'kyamp@gmail.com',
+      username:'haddijah',
+      password: '1234567890',
+      passwordConf:'1234567890'
+    })
+    .end((err, res) => {
+      expect(res.body).to.be.an('object');
+      expect(res.status).to.equal(409);
+      expect(res.body).to.haveOwnProperty('message').to.equal('Email already taken.');
+      done();
+    });
+    
+  });
+  it('should return an error message when an account username is already created', (done) => {
+    request.post('/api/auth/signup')
+    .send({
+      email: 'kyamp1@gmail.com',
+      username:'haddijjah',
+      password: '1234567890',
+      passwordConf:'1234567890'
+    })
+    .end((err, res) => {
+      expect(res.body).to.be.an('object');
+      expect(res.status).to.equal(409);
+      expect(res.body).to.haveOwnProperty('message').to.equal('Username already taken.');
+      done();
+    });
+    
+  });
 
   it('should return an error message for an empty username', (done) => {
     request.post('/api/auth/signup')
     .send({
-      email: 'hadijah@gmail.com',
+      email: 'kyamp@gmail.com',
       username:'',
       password: '1234567890',
       passwordConf:'1234567890'
@@ -109,12 +141,12 @@ describe('Test user API', () => {
 });
 
 //run once after all tests
-after(function (done) {
-  if (deleteAfterRun) {
-      console.log('Deleting test database');
-      mongoose.connection.db.dropDatabase(done);
-  } else {
-      console.log('Not deleting test database because it already existed before run');
-      done();
-  }
-});
+// after(function (done) {
+//   if (deleteAfterRun) {
+//       console.log('Deleting test database');
+//       mongoose.connection.db.dropDatabase(done);
+//   } else {
+//       console.log('Not deleting test database because it already existed before run');
+//       done();
+//   }
+// });

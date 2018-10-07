@@ -2,20 +2,32 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var dotEnv = require('dotenv');
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./config');
+var VerifyToken = require('./server/models/user/verifyToken');
+
+dotEnv.config();
 
 app.use(express.static(__dirname+'/client'));
 app.use(bodyParser.json());
 
 User = require('./server/models/user/user')
+Medicine = require('./server/models/medicine/medicine')
+
 const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
 
+const  env = process.env.NODE_ENV;
 // connect to mongoose
-mongoose.connect('mongodb://localhost/medicalshop')
+if(env === 'test') {
+  mongoose.connect('mongodb://localhost/medicalshop-testdb')
+} else {
+  mongoose.connect('mongodb://localhost/medicalshop')
+}
+
 // database object
 var db = mongoose.connection;
 
@@ -34,23 +46,35 @@ app.post('/api/auth/signup', validateSignup, function(req, res, next){
         }
     
         User.findOne({ email: userData.email })
-        .exec(function (foundUser) {
+        .exec(function (error, foundUser) {
           if (foundUser) {
             return res.status(409).send({
-                message: 'User already exists.',
+                message: 'Email already taken.',
                 statusCode: 409,
                 error: true
             });
           } else {
+            User.findOne({username: userData.username})
+            .exec(function(error, user){
+              if(user){
+                return res.status(409).send({
+                  message: 'Username already taken.',
+                  statusCode: 409,
+                  error: true
+              });
+              }else{
                 User.create(userData, function (error, newUser) {
-                    if (error) {
-                        return next(error);
-                    } 
-                    return res.json({user: newUser,
-                        statusCode:201,
-                        message:'User created successfully'})
-                    });
-                }
+                  if (error) {
+                      return next(error);
+                  } 
+                  return res.status(201).json({user: newUser,
+                      statusCode:201,
+                      message:'User created successfully'})
+                  });
+              }
+            })
+                
+            }
         });
     }
 });
@@ -80,6 +104,18 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
         });
       }); 
   });
+
+//Get all medicines
+app.get('/api/medicines', VerifyToken, function(req, res, next){
+  Medicine.getMedicines(function(err, medicines){
+    if (err){
+      throw err;
+    }
+    res.json(medicines)
+
+  });
+});
+
 app.listen('3000');
 console.log('Running on port 3000...');
-module.exports = app;
+module.exports = {app, db};
