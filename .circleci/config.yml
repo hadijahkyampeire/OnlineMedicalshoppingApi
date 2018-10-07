@@ -27,6 +27,7 @@ jobs:
           - v1-dependencies-
 
       - run: npm install
+      
       - run:
          name: Setup Code Climate test-reporter
          command: |
