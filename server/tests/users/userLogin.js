@@ -81,20 +81,20 @@ describe('Test user login API endpoint', () => {
     //     });
         
     //   });
-      it('should return an error message for un existing email is given', (done) => {
-        request.post('/api/auth/login')
-        .send({
-          email: 'zysh@gmail.com',
-          password: '122345',
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(404);
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.haveOwnProperty('message').to.equal('Users Not Found! Please Sign Up');
-          done();
-        });
+  //     it('should return an error message for un existing email is given', (done) => {
+  //       request.post('/api/auth/login')
+  //       .send({
+  //         email: 'zysh@gmail.com',
+  //         password: '122345',
+  //       })
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(404);
+  //         expect(res.body).to.be.an('object');
+  //         expect(res.body).to.haveOwnProperty('message').to.equal('Users Not Found! Please Sign Up');
+  //         done();
+  //       });
         
-      });
+  //     });
    
   });
 //run once after all tests
