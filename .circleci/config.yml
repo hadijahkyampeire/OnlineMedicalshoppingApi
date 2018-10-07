@@ -42,7 +42,7 @@ jobs:
           name: test-code-coverage
           command: |
             ./cc-test-reporter before-build
-            npm run test:dev
+            npm run test
             ./cc-test-reporter after-build --exit-code $?
       
 

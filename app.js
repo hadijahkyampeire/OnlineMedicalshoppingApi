@@ -19,14 +19,6 @@ mongoose.connect('mongodb://localhost/medicalshop')
 // database object
 var db = mongoose.connection;
 
-
-
-// //first route
-// app.get('/', function(req, res){
-//     res.send('Congratulations, Please use the /api/... endpoints');
-// });
-// ;
-
 app.post('/api/auth/signup', validateSignup, function(req, res, next){
     // req.body allows us to access everything coming from the forms into the genre object
     if (req.body.email &&
