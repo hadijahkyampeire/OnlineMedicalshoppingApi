@@ -111,8 +111,18 @@ app.get('/api/medicines', VerifyToken, function(req, res, next){
     if (err){
       throw err;
     }
-    res.json(medicines)
+    res.status(200).json(medicines)
 
+  });
+});
+
+//Get medicine by id
+app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
+  Medicine.getMedicineById(req.params._id,function(err, medicine){
+    if(err){
+      throw err;
+    }
+    res.status(200).json(medicine)
   });
 });
 

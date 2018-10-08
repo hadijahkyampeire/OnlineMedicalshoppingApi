@@ -31,7 +31,7 @@ describe('Test Medicnes route', () => {
             });
     });
 
-    it("Should return 200 with an empty event array", done => {
+    it("Should return 200 with a medicine array", done => {
         authenticatedUser.get('/api/medicines').set('x-access-token', token).end((err, res) => {
             expect(res.body).to.be.an("array");
             expect(res.status).to.be.equal(200);
@@ -39,12 +39,20 @@ describe('Test Medicnes route', () => {
         done();
     });
 
-    it('should return a 403 response for un authenticated user', function (done) {
-        authenticatedUser.get('/api/medicines').end((err, res)=>{
-            expect(res.status).to.be.equal(403);
+    it("Should return 200 with one medicine array", done => {
+        authenticatedUser.get('/api/medicines/5bba7cebc8496e8cd5ed9925').set('x-access-token', token).end((err, res) => {
+            expect(res.body).to.be.an("array");
+            expect(res.status).to.be.equal(200);
         });
         done();
     });
+
+    // it('should return a 403 response for un authenticated user', function (done) {
+    //     authenticatedUser.get('/api/medicines').set('x-access-token', '').end((err, res)=>{
+    //         expect(res.status).to.be.equal(403);
+    //     });
+    //     done();
+    // });
     //run once after all tests
     after(function (done) {
         // mongoose.connection.db.dropDatabase(done);
