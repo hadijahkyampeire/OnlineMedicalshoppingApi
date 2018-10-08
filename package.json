@@ -4,7 +4,8 @@
   "description": "simple online medical shopping app",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec"
+    "test": "nyc --reporter=html --reporter=text mocha ./server/tests/* --exit  --reporter spec",
+    "start": "node app.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -18,8 +19,16 @@
     "express": "*",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "*",
-    "nyc": "^13.0.1"
+    "nyc": "^13.0.1",
+    "heroku": "^7.16.1"
   },
+  "engines": {
+    "node": "7.7.2"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "nyc": {
     "exclude": [
       "server/tests/*",
