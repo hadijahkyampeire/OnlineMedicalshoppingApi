@@ -34,3 +34,8 @@ var Medicine = module.exports = mongoose.model('Medicine', medicineScheme);
 module.exports.getMedicines = function(callback, limit){
     Medicine.find(callback).limit(limit);
 }
+
+//get one medicine
+module.exports.getMedicineById = function(id, callback){
+    Medicine.findById(id, callback)
+}
