@@ -116,6 +116,18 @@ app.get('/api/medicines', VerifyToken, function(req, res, next){
   });
 });
 
+//search endpoint
+app.get('/api/medicines/search/', VerifyToken, function(req, res, next){
+  const params = req.query;
+  Medicine.find({name: {$regex: params.q}}, function(err, medicine){
+  if(err){
+      throw err;
+    }
+  return res.status(200).json({ Medicine: medicine });
+  })
+  
+});
+
 //Get medicine by id
 app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
   Medicine.getMedicineById(req.params._id,function(err, medicine){
@@ -125,6 +137,7 @@ app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
     res.status(200).json(medicine)
   });
 });
+
 
 app.listen('3000');
 console.log('Running on port 3000...');

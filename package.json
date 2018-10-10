@@ -17,10 +17,10 @@
     "coveralls": "^3.0.2",
     "dotenv": "^6.0.0",
     "express": "*",
+    "heroku": "^7.16.1",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "*",
-    "nyc": "^13.0.1",
-    "heroku": "^7.16.1"
+    "nyc": "^13.0.1"
   },
   "engines": {
     "node": "7.7.2"

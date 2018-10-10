@@ -46,13 +46,7 @@ describe('Test Medicnes route', () => {
         });
         done();
     });
-
-    // it('should return a 403 response for un authenticated user', function (done) {
-    //     authenticatedUser.get('/api/medicines').set('x-access-token', '').end((err, res)=>{
-    //         expect(res.status).to.be.equal(403);
-    //     });
-    //     done();
-    // });
+   
     //run once after all tests
     after(function (done) {
         // mongoose.connection.db.dropDatabase(done);
