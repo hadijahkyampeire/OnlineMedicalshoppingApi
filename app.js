@@ -2,21 +2,35 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var dotEnv = require('dotenv');
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./config');
+var VerifyToken = require('./server/models/user/verifyToken');
+var VerifyAdminToken = require('./server/models/user/verifyAdminToken')
+
+dotEnv.config();
 
 app.use(express.static(__dirname+'/client'));
 app.use(bodyParser.json());
 
 User = require('./server/models/user/user')
+Medicine = require('./server/models/medicine/medicine')
+
 const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
 const validateAdmin = require('./server/middleware/validateAdminLogin')
 
+
+const  env = process.env.NODE_ENV;
 // connect to mongoose
-mongoose.connect('mongodb://localhost/medicalshop')
+if(env === 'test') {
+  mongoose.connect('mongodb://localhost/medicalshop-testdb')
+} else {
+  mongoose.connect('mongodb://localhost/medicalshop')
+}
+
 // database object
 var db = mongoose.connection;
 
@@ -35,23 +49,35 @@ app.post('/api/auth/signup', validateSignup, function(req, res, next){
         }
     
         User.findOne({ email: userData.email })
-        .exec(function (foundUser) {
+        .exec(function (error, foundUser) {
           if (foundUser) {
             return res.status(409).send({
-                message: 'User already exists.',
+                message: 'Email already taken.',
                 statusCode: 409,
                 error: true
             });
           } else {
+            User.findOne({username: userData.username})
+            .exec(function(error, user){
+              if(user){
+                return res.status(409).send({
+                  message: 'Username already taken.',
+                  statusCode: 409,
+                  error: true
+              });
+              }else{
                 User.create(userData, function (error, newUser) {
-                    if (error) {
-                        return next(error);
-                    } 
-                    return res.json({user: newUser,
-                        statusCode:201,
-                        message:'User created successfully'})
-                    });
-                }
+                  if (error) {
+                      return next(error);
+                  } 
+                  return res.status(201).json({user: newUser,
+                      statusCode:201,
+                      message:'User created successfully'})
+                  });
+              }
+            })
+                
+            }
         });
     }
 });
@@ -103,6 +129,40 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
    
   });
 
+//Get all medicines
+app.get('/api/medicines', VerifyToken, function(req, res, next){
+  Medicine.getMedicines(function(err, medicines){
+    if (err){
+      throw err;
+    }
+    res.status(200).json(medicines)
+
+  });
+});
+
+//search endpoint
+app.get('/api/medicines/search/', VerifyToken, function(req, res, next){
+  const params = req.query;
+  Medicine.find({name: {$regex: params.q}}, function(err, medicine){
+  if(err){
+      throw err;
+    }
+  return res.status(200).json({ Medicine: medicine });
+  })
+  
+});
+
+//Get medicine by id
+app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
+  Medicine.getMedicineById(req.params._id,function(err, medicine){
+    if(err){
+      throw err;
+    }
+    res.status(200).json(medicine)
+  });
+});
+
+
 app.listen('3000');
 console.log('Running on port 3000...');
-module.exports = app;
+module.exports = {app, db};
