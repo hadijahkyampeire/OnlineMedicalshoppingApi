@@ -8,6 +8,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('./config');
 var VerifyToken = require('./server/models/user/verifyToken');
+var VerifyAdminToken = require('./server/models/user/verifyAdminToken')
 
 dotEnv.config();
 
@@ -19,6 +20,8 @@ Medicine = require('./server/models/medicine/medicine')
 
 const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
+const validateAdmin = require('./server/middleware/validateAdminLogin')
+
 
 const  env = process.env.NODE_ENV;
 // connect to mongoose
@@ -103,6 +106,27 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
           message: 'Wrong password',
         });
       }); 
+  });
+
+  app.post('/api/auth/admin', validateAdmin, function(req, res) {
+
+    const { question, username, password } = req.body;
+    if (question === "Online Medical Shopping" && password === "admin2020" && username === "admin") {
+      return res.status(200).send({
+        message: 'Admin logged in successfully',
+        token: jwt.sign({
+          password: password,
+          username: username,
+        }, config.secret, { expiresIn: '24h' })
+      });
+    } else {
+      console.log(req.body)
+      return res.status(401).send({
+        statusCode: 401,
+        message: 'Unauthorized',
+      });
+    }
+   
   });
 
 //Get all medicines
