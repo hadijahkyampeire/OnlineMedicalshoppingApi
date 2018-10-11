@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 User = require('./server/models/user/user')
 const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
+const validateAdmin = require('./server/middleware/validateAdminLogin')
 
 // connect to mongoose
 mongoose.connect('mongodb://localhost/medicalshop')
@@ -80,6 +81,28 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
         });
       }); 
   });
+
+  app.post('/api/auth/admin', validateAdmin, function(req, res) {
+
+    const { question, username, password } = req.body;
+    if (question === "Online Medical Shopping" && password === "admin2020" && username === "admin") {
+      return res.status(200).send({
+        message: 'Admin logged in successfully',
+        token: jwt.sign({
+          password: password,
+          username: username,
+        }, config.secret, { expiresIn: '24h' })
+      });
+    } else {
+      console.log(req.body)
+      return res.status(401).send({
+        statusCode: 401,
+        message: 'Unauthorized',
+      });
+    }
+   
+  });
+
 app.listen('3000');
 console.log('Running on port 3000...');
 module.exports = app;
