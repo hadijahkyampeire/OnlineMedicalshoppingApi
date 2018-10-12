@@ -25,6 +25,10 @@ var medicineScheme = mongoose.Schema({
     precautions:{
         type: String,
         required: true
+    },
+    price:{
+        type: String,
+        required:true
     }
 });
 

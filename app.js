@@ -25,7 +25,7 @@ const  env = process.env.NODE_ENV;
 if(env === 'test') {
   mongoose.connect('mongodb://localhost/medicalshop-testdb')
 } else {
-  mongoose.connect('mongodb://localhost/medicalshop')
+  mongoose.connect('mongodb://localhost/medicineshop')
 }
 
 // database object
@@ -128,6 +128,26 @@ app.get('/api/medicines/search/', VerifyToken, function(req, res, next){
   
 });
 
+// Paginate medicine endpoint
+app.get('/api/medicines/paginate',VerifyToken, function(req,res){
+  var page = parseInt(req.query.page),
+      size = parseInt(req.query.size),
+      skip = page & 0 ? ((page - 1) * size) : 0;
+ 
+      Medicine.find(null, null, {
+         skip: skip,
+         limit: size
+      }, function (err, data) {
+         if(err) {
+            res.json(500, err);
+         }
+         else {
+            res.status(200).json({
+               Medicines: data
+            });
+         }
+      });
+})
 //Get medicine by id
 app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
   Medicine.getMedicineById(req.params._id,function(err, medicine){
