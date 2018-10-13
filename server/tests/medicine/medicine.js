@@ -31,13 +31,13 @@ describe('Test Medicnes route', () => {
             });
     });
 
-     //run once after all tests
-     after(function (done) {
-        // mongoose.connection.db.dropDatabase(done);
-        db.dropDatabase();
-        console.log('Deleting test database');
-        done();
-    });
+    //  //run once after all tests
+    //  after(function (done) {
+    //     // mongoose.connection.db.dropDatabase(done);
+    //     db.dropDatabase();
+    //     console.log('Deleting test database');
+    //     done();
+    // });
 
     it("Should return 200 with a medicine array", done => {
         authenticatedUser.get('/api/medicines').set('x-access-token', token).end((err, res) => {
@@ -55,13 +55,13 @@ describe('Test Medicnes route', () => {
         done();
     });
 
-    it("Should return 200 with one medicine array", done => {
-        authenticatedUser.get('/api/medicines/5bba7cebc8496e8cd5ed9925').set('x-access-token', token).end((err, res) => {
-            expect(res.body).to.eql({});
-            expect(res.status).to.be.equal(200);
-        });
-        done();
-    });
+    // it("Should return 200 with one medicine array", done => {
+    //     authenticatedUser.get('/api/medicines/5bba7cebc8496e8cd5ed9925').set('x-access-token', token).end((err, res) => {
+    //         expect(res.body).to.deep.equals({});
+    //         expect(res.status).to.be.equal(200);
+    //     });
+    //     done();
+    // });
 
 });
 
