@@ -17,10 +17,12 @@ app.use(bodyParser.json());
 
 User = require('./server/models/user/user')
 Medicine = require('./server/models/medicine/medicine')
+Order = require('./server/models/orders/orders')
 
 const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
 const validateAdmin = require('./server/middleware/validateAdminLogin')
+const validateMedicineOrder = require('./server/middleware/validateOrder')
 
 
 const  env = process.env.NODE_ENV;
@@ -120,7 +122,6 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
         }, config.secret, { expiresIn: '24h' })
       });
     } else {
-      console.log(req.body)
       return res.status(401).send({
         statusCode: 401,
         message: 'Unauthorized',
@@ -182,6 +183,27 @@ app.get('/api/medicines/:_id', VerifyToken, function(req, res, next){
   });
 });
 
+//order for medicines
+app.post('/api/medicines/order', VerifyToken, validateMedicineOrder, function(req, res, next){
+  var userEmail = req.currentUser.email
+  var userId = req.currentUser.id
+  var medicineOrder = {
+    medicineName: req.body.medicineName,
+    quantity: req.body.quantity,
+    userEmail: userEmail,
+    userId: userId,
+    }
+  Order.addOrder(medicineOrder, function(err, order){
+      if(err){
+          throw err;
+      }
+      res.status(201).json({
+          orderedMedicine:order,
+          status:201,
+          success:true,
+          message:'Your order has been sent successfully'});
+  });
+});
 
 app.listen('3000');
 console.log('Running on port 3000...');
