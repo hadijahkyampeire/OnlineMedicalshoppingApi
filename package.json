@@ -4,20 +4,32 @@
   "description": "simple online medical shopping app",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=text mocha ./server/tests/* --exit  --reporter spec"
+    "test": "NODE_ENV=test MONGO_URL=mongodb://localhost:27017/medicalshop-testdb nyc --reporter=lcov --reporter=text mocha ./server/tests/testPath --exit  --reporter spec"
+
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
     "babel-register": "^6.26.0",
-    "bcrypt": "^3.0.1",
+    "bcrypt": "^2.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "*",
     "coveralls": "^3.0.2",
+    "dotenv": "^6.0.0",
     "express": "*",
+    "heroku": "^7.16.1",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "*",
     "nyc": "^13.0.1"
   },
+  "engines": {
+    "node": "7.7.2"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "nyc": {
     "exclude": [
       "server/tests/*",
