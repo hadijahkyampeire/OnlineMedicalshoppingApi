@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test MONGO_URL=mongodb://localhost:27017/medicalshop-testdb nyc --reporter=lcov --reporter=text mocha ./server/tests/testPath --exit  --reporter spec"
+
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

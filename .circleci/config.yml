@@ -35,7 +35,6 @@ jobs:
 
       - run: npm install
       - run: npm rebuild
-      
       - run:
          name: Setup Code Climate test-reporter
          command: |
@@ -55,3 +54,4 @@ jobs:
             npm run test
             # upload the report
             ./cc-test-reporter after-build 
+
