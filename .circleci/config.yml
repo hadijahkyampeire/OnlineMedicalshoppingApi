@@ -1,3 +1,4 @@
+
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
@@ -5,6 +6,8 @@
 version: 2
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: b95f7b07561a2b8f2843009420f6da848bca8760cb7a4cb7bc25c1fbae91b210
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9.4
@@ -32,7 +35,6 @@ jobs:
 
       - run: npm install
       - run: npm rebuild
-      
       - run:
          name: Setup Code Climate test-reporter
          command: |
@@ -43,13 +45,13 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
         
-      # run tests!
       - run:
-          name: test-code-coverage
+          name: Run Tests
           command: |
+            # notify Code Climate of a pending test report using `before-build`
             ./cc-test-reporter before-build
+            # run the tests
             npm run test
-            # ./cc-test-reporter after-build --exit-code $?
-      
-
+            # upload the report
+            ./cc-test-reporter after-build 
 
