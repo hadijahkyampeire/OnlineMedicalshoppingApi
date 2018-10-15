@@ -3,6 +3,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var dotEnv = require('dotenv');
+var swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express')
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
@@ -14,6 +16,26 @@ dotEnv.config();
 
 app.use(express.static(__dirname+'/client'));
 app.use(bodyParser.json());
+
+// swagger definition
+var swaggerDefinition = {
+  info: {
+    title: 'Node Swagger API',
+    version: '1.0.0',
+    description: 'Demonstrating how to describe a RESTful API with Swagger',
+  },
+  host: 'localhost:3000',
+  basePath: '/',
+};
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./app.js','app.js'],// pass all in array 
+  };
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
 
 User = require('./server/models/user/user')
 Medicine = require('./server/models/medicine/medicine')
@@ -36,6 +58,32 @@ if(env === 'test') {
 // database object
 var db = mongoose.connection;
 
+// serve swagger 
+app.get('/swagger.json', function(req, res) {  
+  res.setHeader('Content-Type', 'application/json');   res.send(swaggerSpec); });
+
+/**
+ * @swagger
+ * /api/auth/signup:
+ *   post:
+ *     description: Add users
+ *     tags:
+ *       - Signup
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: signup
+ *         description: Signup credentials
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Signup'
+ *     responses:
+ *       201:
+ *         description: user registration
+ *         schema:
+ *           $ref: '#/definitions/Signup'
+ */
 app.post('/api/auth/signup', validateSignup, function(req, res, next){
     // req.body allows us to access everything coming from the forms into the genre object
     if (req.body.email &&
@@ -84,6 +132,28 @@ app.post('/api/auth/signup', validateSignup, function(req, res, next){
     }
 });
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     description: Login users
+ *     tags:
+ *       - Login
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: login
+ *         description: login credentials
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Login'
+ *     responses:
+ *       201:
+ *         description: user login
+ *         schema:
+ *           $ref: '#/definitions/Login'
+ */
 app.post('/api/auth/login', validateLogin,function(req, res) {
 
     const { email, password } = req.body;
@@ -205,6 +275,7 @@ app.post('/api/medicines/order', VerifyToken, validateMedicineOrder, function(re
   });
 });
 
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.listen('3000');
 console.log('Running on port 3000...');
 module.exports = {app, db};

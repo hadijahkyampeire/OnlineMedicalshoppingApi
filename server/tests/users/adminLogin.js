@@ -1,11 +1,7 @@
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
-var app = require('../../../app');
+var {app} = require('../../../app');
 var supertest = require('supertest');
-
-var deleteAfterRun = false;
-mongoose.connect('mongodb://localhost/medicalshop-testdb')
-var db = mongoose.connection;
 
 const request = supertest(app);
 
@@ -124,12 +120,12 @@ describe('Test admin login API endpoint', () => {
       }); 
   });
 // //run once after all tests
-after(function (done) {
-  if (deleteAfterRun) {
-      console.log('Deleting test database');
-      mongoose.connection.db.dropDatabase(done);
-  } else {
-      console.log('Not deleting test database because it already existed before run');
-      done();
-  }
-});
+// after(function (done) {
+//   if (deleteAfterRun) {
+//       console.log('Deleting test database');
+//       mongoose.connection.db.dropDatabase(done);
+//   } else {
+//       console.log('Not deleting test database because it already existed before run');
+//       done();
+//   }
+// });
