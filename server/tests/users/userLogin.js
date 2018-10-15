@@ -17,8 +17,8 @@ describe('Test user login API endpoint', () => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.an('object');
         expect(res.body).to.haveOwnProperty('message').to.equal('Email can not be empty');
-        done();
       });
+      done();
       
     });
    
@@ -32,8 +32,8 @@ describe('Test user login API endpoint', () => {
           expect(res.status).to.equal(400);
           expect(res.body).to.be.an('object');
           expect(res.body).to.haveOwnProperty('message').to.equal('Invalid email format');
-          done();
         });
+        done();
     });
     it('should return an error message for an empty password', (done) => {
       request.post('/api/auth/login')
@@ -45,9 +45,8 @@ describe('Test user login API endpoint', () => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.an('object');
         expect(res.body).to.haveOwnProperty('message').to.equal('Password can not be empty');
-        done();
       });
-      
+      done();
     });
     it('should return a success message for login successful', (done) => {
       request.post('/api/auth/login')
@@ -60,8 +59,8 @@ describe('Test user login API endpoint', () => {
         expect(res.body).to.be.an('object');
         expect(res.body).to.haveOwnProperty('token');
         expect(res.body).to.haveOwnProperty('message').to.equal('logged in successfully');
-        done();
       });
+      done();
       
     });
     it('should return an error message for a wrong password is given', (done) => {
@@ -74,8 +73,8 @@ describe('Test user login API endpoint', () => {
           expect(res.status).to.equal(401);
           expect(res.body).to.be.an('object');
           expect(res.body).to.haveOwnProperty('message').to.equal('Wrong password');
-          done();
         });
+        done();
         
       });
       it('should return an error message for un existing email is given', (done) => {
@@ -88,8 +87,8 @@ describe('Test user login API endpoint', () => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.an('object');
           expect(res.body).to.haveOwnProperty('message').to.equal('Users Not Found! Please Sign Up');
-          done();
         });
+        done();
         
       });
    

@@ -4,10 +4,6 @@ var expect = require('chai').expect;
 var supertest = require('supertest');
 var { app, db } = require('../../../app');
 
-// mongoose.connect('mongodb://localhost/medicalshop-testdb')
-var db = mongoose.connection;
-
-
 const request = supertest(app);
 const userCredentials = {
     email: 'kyamp@gmail.com',
@@ -16,7 +12,7 @@ const userCredentials = {
 
 let token = '';
 
-describe('Test Medicnes route', () => {
+describe('Test Medicines route', () => {
     //     create a user so as to obtain a token for authentication
     // now let's login the user before we run any tests
     var authenticatedUser = request;
@@ -27,8 +23,8 @@ describe('Test Medicnes route', () => {
             .end(function (err, response) {
                 expect(response.statusCode).to.equal(200);
                 token = response.body.token
-                done();
             });
+            done();
     });
 
     //  //run once after all tests
@@ -39,9 +35,9 @@ describe('Test Medicnes route', () => {
     //     done();
     // });
 
-    it("Should return 200 with a medicine array", done => {
+    it("Should return 200 with a medicine object", done => {
         authenticatedUser.get('/api/medicines').set('x-access-token', token).end((err, res) => {
-            expect(res.body).to.be.an("array");
+            expect(res.body).to.be.an("object");
             expect(res.status).to.be.equal(200);
         });
         done();
@@ -62,6 +58,11 @@ describe('Test Medicnes route', () => {
     //     });
     //     done();
     // });
-
+   
+    after(function (done) {
+        db.dropDatabase();
+        console.log('Deleting test database');
+        done();
+    });
 });
 
