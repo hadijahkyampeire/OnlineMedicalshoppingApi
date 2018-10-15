@@ -3,10 +3,6 @@ var expect = require('chai').expect;
 var {app} = require('../../../app');
 var supertest = require('supertest');
 
-// var deleteAfterRun = true;
-// mongoose.connect('mongodb://localhost/medicalshop-testdb')
-// var db = mongoose.connection;
-
 const request = supertest(app);
 
 describe('Test user API', () => {
@@ -22,9 +18,8 @@ describe('Test user API', () => {
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body).to.haveOwnProperty('message').to.equal('Email can not be empty');
-      done();
     });
-    
+    done();
   });
   it('should return a success message for account created', (done) => {
     request.post('/api/auth/signup')
@@ -38,10 +33,10 @@ describe('Test user API', () => {
       expect(res.status).to.equal(201);
       expect(res.body).to.be.an('object');
       expect(res.body).to.haveOwnProperty('message').to.equal('User created successfully');
-      done();
     });
-    
+    done();
   });
+
   it('should return an error message when an account email is alreadycreated', (done) => {
     request.post('/api/auth/signup')
     .send({
@@ -54,10 +49,10 @@ describe('Test user API', () => {
       expect(res.body).to.be.an('object');
       expect(res.status).to.equal(409);
       expect(res.body).to.haveOwnProperty('message').to.equal('Email already taken.');
-      done();
     });
-    
+    done();
   });
+
   it('should return an error message when an account username is already created', (done) => {
     request.post('/api/auth/signup')
     .send({
@@ -70,9 +65,8 @@ describe('Test user API', () => {
       expect(res.body).to.be.an('object');
       expect(res.status).to.equal(409);
       expect(res.body).to.haveOwnProperty('message').to.equal('Username already taken.');
-      done();
     });
-    
+    done();
   });
 
   it('should return an error message for an empty username', (done) => {
@@ -87,9 +81,8 @@ describe('Test user API', () => {
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body).to.haveOwnProperty('message').to.equal('Username can not be empty');
-      done();
     });
-    
+    done();
   });
   it('should return a status 400 error response if email is not correct', (done) => {
     request.post('/api/auth/signup')
@@ -103,8 +96,8 @@ describe('Test user API', () => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.an('object');
         expect(res.body).to.haveOwnProperty('message').to.equal('Invalid email format');
-        done();
       });
+      done();
   });
   it('should return an error message for an empty password', (done) => {
     request.post('/api/auth/signup')
@@ -118,9 +111,8 @@ describe('Test user API', () => {
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body).to.haveOwnProperty('message').to.equal('Password can not be empty');
-      done();
     });
-    
+    done();
   });
   it('should return an error message for password mismatch', (done) => {
     request.post('/api/auth/signup')
@@ -134,9 +126,8 @@ describe('Test user API', () => {
       expect(res.status).to.equal(400);
       expect(res.body).to.be.an('object');
       expect(res.body).to.haveOwnProperty('message').to.equal('passwords dont match');
-      done();
     });
-    
+    done();
   });
 });
 

@@ -45,6 +45,7 @@ const validateSignup = require('./server/middleware/validateSignup')
 const validateLogin = require('./server/middleware/validateLogin')
 const validateAdmin = require('./server/middleware/validateAdminLogin')
 const validateMedicineOrder = require('./server/middleware/validateOrder')
+const validateMedicine = require('./server/middleware/validateMedicine')
 
 
 const  env = process.env.NODE_ENV;
@@ -199,6 +200,48 @@ app.post('/api/auth/login', validateLogin,function(req, res) {
     }
    
   });
+
+//Add medicine
+app.post('/api/medicines', VerifyAdminToken, validateMedicine, function(req, res){
+  if (req.body.name &&
+    req.body.description &&
+    req.body.uses &&
+    req.body.dosage &&
+    req.body.sideeffects &&
+    req.body.precautions) {
+
+    var medicineData = {
+      name: req.body.name,
+      description: req.body.description,
+      uses: req.body.uses,
+      dosage: req.body.dosage,
+      sideeffects: req.body.sideeffects,
+      precautions: req.body.precautions
+    }
+    Medicine.findOne({name: medicineData.name})
+            .exec(function(error, name){
+              if(name){
+                return res.status(409).send({
+                  message: 'Medicine already exists.',
+                  statusCode: 409,
+              });
+            }
+            else{
+              Medicine.addMedicine(medicineData, function(err, medicine){
+                if(err){
+                  throw err;
+                }
+                return res.status(201).send({
+                  medicine: medicine,
+                  statusCode: 201,
+                  message: 'Medicine successfully added'
+                });
+              });
+            }
+        });
+      }
+    });
+  
 
 //Get all medicines
 app.get('/api/medicines', VerifyToken, function(req, res, next){

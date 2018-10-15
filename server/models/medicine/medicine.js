@@ -43,3 +43,8 @@ module.exports.getMedicines = function(callback, limit){
 module.exports.getMedicineById = function(id, callback){
     Medicine.findById(id, callback)
 }
+
+//add medicine
+module.exports.addMedicine = function(medicine, callback){
+    Medicine.create(medicine, callback);
+}
