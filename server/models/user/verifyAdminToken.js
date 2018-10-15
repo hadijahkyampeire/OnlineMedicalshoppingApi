@@ -9,6 +9,9 @@ function verifyToken(req, res, next) {
     if (err)
     return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
     // if everything good, save to request for use in other routes
+    if (req.username != "admin" && req.password != "admin2020") {
+      return res.status(403).send({ auth: false, message: 'You are not an admin.' });
+    }
     req.username == decoded.username;
     next();
   });
